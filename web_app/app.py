@@ -10,13 +10,19 @@ def home():
 
 @app.route('/kumparan-trends')
 def getKumparanTrends():
-    html_datas = requests.get('https://kumparan.com/trending')
-    soup = BeautifulSoup(html_datas.text, 'html.parser')
+    try:
+        titles=''
+        html_datas = requests.get('https://kumparan.com/trending')
+        if(html_datas.status_code == 200):
+            soup = BeautifulSoup(html_datas.text, 'html.parser')
 
-    trend_news = soup.find(attrs={'class':'NewsCardContainerweb__Scroll-sc-1fei86o-2 cXaeCj'})
-    titles = trend_news.find_all(attrs={'class':'TextBoxweb__StyledTextBox-n41hy7-0 jVPDss'})
+            trend_news = soup.find(attrs={'class':'NewsCardContainerweb__Scroll-sc-1fei86o-2 cXaeCj'})
+            titles = trend_news.find_all(attrs={'class':'TextBoxweb__StyledTextBox-n41hy7-0 jVPDss'})
 
-    return render_template('index.html', titles = titles)
+        return render_template('index.html', titles = titles)
+
+    except Exception as ex:
+        print(ex)
 
 if __name__ == '__main__':
     app.run(debug=True)

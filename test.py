@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 html_datas = requests.get('https://kumparan.com/trending')
+print(html_datas.status_code)
 soup = BeautifulSoup(html_datas.text, 'html.parser')
 
 trend_news = soup.find(attrs={'class':'NewsCardContainerweb__Scroll-sc-1fei86o-2 cXaeCj'})
